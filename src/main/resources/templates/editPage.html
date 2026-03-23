@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form th:action="@{${user.id == 0 ? '/users/add' : '/users/edit'}}" method="post" th:object="${user}">
+<form th:action="@{${user.id == 0 ? '/admin/add' : '/admin/edit'}}" method="post" th:object="${user}">
 
     <input type="hidden" th:if="${user.id != 0}" th:field="*{id}" />
 
@@ -25,7 +25,7 @@
     <input type="submit" th:value="${user.id == 0 ? 'Добавить нового пользователя' : 'Изменить пользователя'}" />
 </form>
 
-<a th:href="@{/users}">Вернуться в список пользователей</a>
+<a th:href="@{/admin}">Вернуться в список пользователей</a>
 
 </body>
 </html>
