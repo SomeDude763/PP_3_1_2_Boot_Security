@@ -17,24 +17,6 @@ public class User implements UserDetails {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "name")
-    @NotBlank(message = "Имя не должно быть пустым, заправься борщом густым")
-    @Size(min = 2, max = 50, message = "тут такое дело... " +
-            "имя должно состоять как минимум из 2 и как максимум из 50 символов")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "выйди и зайди заново, используя только буквы")
-    private String name;
-
-    @Column(name = "surname")
-    @NotBlank(message = "Фамилия не должна быть пустой, сделай бутерброд с колбасой")
-    @Size(min = 2, max = 50, message = "ну что ж такое то," +
-            " фамилия должна состоять как минимум из 2 и как максимум из 50 символов")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я\\-]+$", message = "зайди и выйди заново, используя только буквы")
-    private String surname;
-
-    @Min(value = 0, message = "Возраст не может быть меньше 0, за меня идиота не держи")
-    @Max(value = 150, message = "Возраст слишком большой, сооберись")
-    @Column(name = "age")
-    private int age;
 
     @Column(name = "username")
     @NotBlank(message = "username не должен быть пустым, заправься борщом густым")
@@ -42,17 +24,18 @@ public class User implements UserDetails {
             "username должен состоять как минимум из 2 и как максимум из 50 символов")
     @Pattern(regexp = "^[a-zA-Zа-яА-Я]+$", message = "выйди и зайди заново, используя только буквы")
     private String username;
+    @Column(name = "password")
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String name, String surname, int age, String username, String password, Set<Role> roles) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
+    public User(String username, String password, Set<Role> roles) {
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -64,30 +47,6 @@ public class User implements UserDetails {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public String getUsername() {
@@ -143,16 +102,11 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
     }
-
-
 }
 
 

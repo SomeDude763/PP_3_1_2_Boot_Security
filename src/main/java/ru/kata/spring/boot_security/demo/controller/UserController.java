@@ -1,69 +1,36 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 
-
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
+import ru.kata.spring.boot_security.demo.services.UserDetailsServiceImpl;
+import ru.kata.spring.boot_security.demo.services.UserService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/user")
 public class UserController {
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+
     @GetMapping
-    public String allUser(Model model) {
-        List<User> users = userService.allUsers();
-        model.addAttribute("usersList", users);
-        return "admin";
-    }
-
-    @GetMapping(value = "/edit")
-    public String editPage(@RequestParam(value = "id") int id, Model model) {
-        User user = userService.getById(id);
+    public String userInfo(Principal principal, Model model) {
+        String username = principal.getName();
+        User user = userService.findByUsername(username);
         model.addAttribute("user", user);
-        return "editPage";
-    }
-
-    @PostMapping(value = "/edit")
-    public String editUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return "editPage";
-        }
-        userService.edit(user);
-        return "redirect:/users";
-    }
-
-    @GetMapping(value = "/add")
-    public String addPage(Model model) {
-        model.addAttribute("user",new User());
-        return "editPage";
-    }
-
-    @PostMapping(value = "/add")
-    public String addUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return "editPage";
-        }
-        userService.add(user);
-        return "redirect:/users";
-    }
-
-    @PostMapping(value = "/delete")
-    public String deleteUser(@RequestParam(value = "id") int id) {
-        User user = userService.getById(id);
-        userService.delete(user);
-        return "redirect:/users";
+        return "user";
     }
 }
