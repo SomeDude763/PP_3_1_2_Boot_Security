@@ -34,6 +34,7 @@ public class AdminController {
     public void initBinder(WebDataBinder binder) {
         binder.setDisallowedFields("roles");
     }
+
     @GetMapping
     public String allUsers(Model model) {
         model.addAttribute("findAll", userService.findAll());
@@ -49,9 +50,9 @@ public class AdminController {
 
     @PostMapping(value = "/new")
     public String createUser(@Valid @ModelAttribute("user") User user,
-                             @RequestParam(value = "roles",required = false) List<String> roles,
+                             @RequestParam(value = "roles", required = false) List<String> roles,
                              BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "create-user";
         }
         Set<Role> userRoles = roles.stream()
@@ -70,10 +71,10 @@ public class AdminController {
     }
 
     @PostMapping(value = "/edit")
-    public String editUser(@Valid@ModelAttribute("user") User user,
-                           @RequestParam(value = "roles",required = false) List<String> roles,BindingResult
-                           bindingResult) {
-        if(bindingResult.hasErrors()) {
+    public String editUser(@Valid @ModelAttribute("user") User user,
+                           @RequestParam(value = "roles", required = false) List<String> roles, BindingResult
+                                   bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "edit-user";
         }
         Set<Role> userRoles = roles.stream()

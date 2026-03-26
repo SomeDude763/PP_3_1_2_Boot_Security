@@ -16,7 +16,7 @@
     <br>
     <label>Roles:</label>
     <div th:each="role : ${roleList}">
-        <input type="checkbox" name="roles" th:value="${role.role}" th:text="${role.role}" />
+        <input type="checkbox" name="roles" th:value="${role.role}" th:text="${role.role}"/>
     </div>
     <br>
     <button type="submit">Создать</button>

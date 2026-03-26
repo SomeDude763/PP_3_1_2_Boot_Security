@@ -31,12 +31,12 @@
         </td>
         <td>
             <form th:action="@{/admin/edit}" method="get" style="display:inline;">
-                <input type="hidden" name="id" th:value="${user.id}" />
+                <input type="hidden" name="id" th:value="${user.id}"/>
                 <button type="submit">Редактировать</button>
             </form>
 
             <form th:action="@{/admin/delete}" method="post" style="display:inline;">
-                <input type="hidden" name="id" th:value="${user.id}" />
+                <input type="hidden" name="id" th:value="${user.id}"/>
                 <button type="submit">Удалить</button>
             </form>
         </td>
