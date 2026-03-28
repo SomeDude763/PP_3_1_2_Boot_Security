@@ -40,8 +40,16 @@ public class UserService {
     }
 
     public void update(int id, User updatedUser) {
-        updatedUser.setId(id);
-        userRepository.save(updatedUser);
+        User oldUser = userRepository.findById(id).orElseThrow();
+        oldUser.setUsername(updatedUser.getUsername());
+        oldUser.setRoles(updatedUser.getRoles());
+
+        if(updatedUser.getPassword() == null || updatedUser.getPassword().isEmpty()) {
+            oldUser.setPassword(oldUser.getPassword());
+        } else {
+            oldUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+        userRepository.save(oldUser);
     }
 
     public void delete(int id) {

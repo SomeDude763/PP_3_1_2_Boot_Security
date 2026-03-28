@@ -18,7 +18,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     @NotBlank(message = "username не должен быть пустым, заправься борщом густым")
     @Size(min = 2, max = 50, message = "тут такое дело... " +
             "username должен состоять как минимум из 2 и как максимум из 50 символов")
